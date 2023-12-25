@@ -1,12 +1,15 @@
 package com.example.pet_project.service.impl;
 
+import com.example.pet_project.mapper.CoreMapper;
 import com.example.pet_project.model.dao.CityRepository;
+import com.example.pet_project.model.dto.CityDto;
 import com.example.pet_project.model.entities.City;
 import com.example.pet_project.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -24,9 +27,12 @@ public class CityServiceImpl implements CityService {
         return repository.findById(id).get();
     }
 
+    //ex
     @Override
-    public List<City> getAllCities() {
-        return repository.findAll();
+    public List<CityDto> getAllCities() {
+        return repository.findAll().stream()
+                .map(CoreMapper.INSTANCE::toCityDto)
+                .collect(Collectors.toList());
     }
 
     @Override
