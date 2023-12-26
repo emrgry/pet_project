@@ -13,11 +13,12 @@ import java.util.Date;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_post_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_generator")
+    @SequenceGenerator(name="post_generator", sequenceName = "seq_post_id", allocationSize=1)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "post_user_fk"))
     private User createdBy;
 
     private Date createdDate;

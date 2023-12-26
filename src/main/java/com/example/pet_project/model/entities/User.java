@@ -11,6 +11,8 @@ import lombok.Setter;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
+    @SequenceGenerator(name="user_generator", sequenceName = "seq_user_id", allocationSize=1)
     private Long id;
 
     private String userName;
@@ -24,7 +26,7 @@ public class User {
     private String address;
 
     @ManyToOne
-    @JoinColumn(name = "city_code")
+    @JoinColumn(name = "city_code", nullable = false, foreignKey = @ForeignKey(name = "user_city_fk"))
     private City city;
 
 

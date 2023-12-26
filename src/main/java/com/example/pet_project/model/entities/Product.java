@@ -12,14 +12,15 @@ public class Product {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_product_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
+    @SequenceGenerator(name="product_generator", sequenceName = "seq_product_id", allocationSize=1)
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "animal_id")
+    @JoinColumn(name = "animal_id", nullable = false, foreignKey = @ForeignKey(name = "product_animal_fk"))
     private Animal animal;
 
 }

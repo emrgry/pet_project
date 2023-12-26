@@ -13,15 +13,16 @@ import java.util.Date;
 public class Application {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_application_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "application_generator")
+    @SequenceGenerator(name="application_generator", sequenceName = "seq_application_id", allocationSize=1)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", nullable = false, foreignKey = @ForeignKey(name = "application_post_fk"))
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "application_user_fk"))
     private User user;
 
     private Date applyDate;

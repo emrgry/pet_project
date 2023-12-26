@@ -1,9 +1,6 @@
 package com.example.pet_project.model.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +11,8 @@ import lombok.Setter;
 public class City {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "city_generator")
+    @SequenceGenerator(name="city_generator", sequenceName = "seq_city_id", allocationSize=1)
     private Long id;
 
     private Long cityCode;

@@ -11,7 +11,8 @@ import lombok.Setter;
 public class Animal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_animal_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animal_generator")
+    @SequenceGenerator(name="animal_generator", sequenceName = "seq_animal_id", allocationSize=1)
     private Long id;
 
     private String name;
