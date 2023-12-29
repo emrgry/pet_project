@@ -1,6 +1,5 @@
 package com.example.pet_project.service.impl;
 
-import com.example.pet_project.mapper.CoreMapper;
 import com.example.pet_project.model.dao.CityRepository;
 import com.example.pet_project.model.dto.CityDto;
 import com.example.pet_project.model.entities.City;
@@ -8,8 +7,8 @@ import com.example.pet_project.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -30,9 +29,13 @@ public class CityServiceImpl implements CityService {
     //ex
     @Override
     public List<CityDto> getAllCities() {
-        return repository.findAll().stream()
-                .map(CoreMapper.INSTANCE::toCityDto)
-                .collect(Collectors.toList());
+        List<City> cityList = repository.findAll();
+        List<CityDto> cityDtoList = new ArrayList<>();
+        for (City city : cityList) {
+            cityDtoList.add(new CityDto(city.getId(), city.getCityCode(), city.getCityName()));
+        }
+
+        return cityDtoList;
     }
 
     @Override

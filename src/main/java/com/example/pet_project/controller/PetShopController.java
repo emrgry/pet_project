@@ -1,15 +1,15 @@
 package com.example.pet_project.controller;
 
-import com.example.pet_project.mapper.CoreMapper;
 import com.example.pet_project.model.dto.*;
+import com.example.pet_project.model.entities.*;
 import com.example.pet_project.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/petShop")
@@ -25,40 +25,194 @@ public class PetShopController {
 
 
     @PostMapping("/addAnimal")
-    public ResponseEntity<Void> addAnimal(AnimalDTO animalDTO) {
-        animalService.createAnimal(CoreMapper.INSTANCE.toAnimal(animalDTO));
+    public ResponseEntity<Void> addAnimal(@RequestBody Animal animal) {
+        animalService.createAnimal(animal);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/addUser")
-    public ResponseEntity<Void> addUser(UserDTO userDTO) {
-        userService.createUser(CoreMapper.INSTANCE.toUser(userDTO));
-        return new ResponseEntity(HttpStatus.OK);
+    @GetMapping("/getAllAnimals")
+    public ResponseEntity<List<AnimalDTO>> getAllAnimals() {
+        return new ResponseEntity(animalService.getAllAnimals(), HttpStatus.OK);
     }
 
-    @PostMapping("/addProduct")
-    public ResponseEntity<Void> addProduct(ProductDTO productDTO) {
-        productService.createProduct(CoreMapper.INSTANCE.toProduct(productDTO));
-        return new ResponseEntity(HttpStatus.OK);
+    @GetMapping("getAnimalById/{id}")
+    public ResponseEntity<Animal> getAnimalById(@PathVariable Long id) {
+        Animal animal = animalService.getAnimalById(id);
+        if (animal != null) {
+            return new ResponseEntity<>(animal, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PostMapping("/addCity")
-    public ResponseEntity<Void> addCity(CityDto cityDto) {
-        cityService.createCity(CoreMapper.INSTANCE.toCity(cityDto));
-        return new ResponseEntity(HttpStatus.OK);
+    @PutMapping
+    public ResponseEntity<Animal> updateAnimal(@RequestBody Animal animal) {
+        Animal updatedAnimal = animalService.updateAnimal(animal);
+        if (updatedAnimal != null) {
+            return new ResponseEntity<>(updatedAnimal, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PostMapping("/addPost")
-    public ResponseEntity<Void> addPost(PostDTO postDTO) {
-        postService.createPost(CoreMapper.INSTANCE.toPost(postDTO));
-        return new ResponseEntity(HttpStatus.OK);
+    @PostMapping("/createApplication")
+    public ResponseEntity<Application> createApplication(@RequestBody Application application) {
+        Application createdApplication = applicationService.createApplication(application);
+        return new ResponseEntity<>(createdApplication, HttpStatus.CREATED);
     }
 
-    @PostMapping("/addApplication")
-    public ResponseEntity<Void> addApplication(ApplicationDTO applicationDTO) {
-        applicationService.createApplication(CoreMapper.INSTANCE.toApplication(applicationDTO));
-        return new ResponseEntity(HttpStatus.OK);
+    @GetMapping("/getApplicationById/{id}")
+    public ResponseEntity<Application> getApplicationById(@PathVariable Long id) {
+        Application application = applicationService.getApplicationById(id);
+        if (application != null) {
+            return new ResponseEntity<>(application, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
+    @GetMapping("/getAllApplications")
+    public ResponseEntity<List<Application>> getAllApplications() {
+        List<Application> applications = applicationService.getAllApplications();
+        return new ResponseEntity<>(applications, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateApplication")
+    public ResponseEntity<Application> updateApplication(@RequestBody Application application) {
+        Application updatedApplication = applicationService.updateApplication(application);
+        if (updatedApplication != null) {
+            return new ResponseEntity<>(updatedApplication, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/createCity")
+    public ResponseEntity<City> createCity(@RequestBody City city) {
+        City createdCity = cityService.createCity(city);
+        return new ResponseEntity<>(createdCity, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getCityById/{id}")
+    public ResponseEntity<City> getCityById(@PathVariable Long id) {
+        City city = cityService.getCityById(id);
+        if (city != null) {
+            return new ResponseEntity<>(city, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/getAllCities")
+    public ResponseEntity<List<CityDto>> getAllCities() {
+        List<CityDto> cities = cityService.getAllCities();
+        return new ResponseEntity<>(cities, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateCity")
+    public ResponseEntity<City> updateCity(@RequestBody City city) {
+        City updatedCity = cityService.updateCity(city);
+        if (updatedCity != null) {
+            return new ResponseEntity<>(updatedCity, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/createPost")
+    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+        Post createdPost = postService.createPost(post);
+        return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getPostById/{id}")
+    public ResponseEntity<Post> getPostById(@PathVariable Long id) {
+        Post post = postService.getPostById(id);
+        if (post != null) {
+            return new ResponseEntity<>(post, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/getAllPosts")
+    public ResponseEntity<List<Post>> getAllPosts() {
+        List<Post> posts = postService.getAllPosts();
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @PutMapping("/updatePost")
+    public ResponseEntity<Post> updatePost(@RequestBody Post post) {
+        Post updatedPost = postService.updatePost(post);
+        if (updatedPost != null) {
+            return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/createProduct")
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product createdProduct = productService.createProduct(product);
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getProductById/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        Product product = productService.getProductById(id);
+        if (product != null) {
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/getAllProducts")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateProduct")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+        Product updatedProduct = productService.updateProduct(product);
+        if (updatedProduct != null) {
+            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/createUser")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getUserById/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateUser")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        User updatedUser = userService.updateUser(user);
+        if (updatedUser != null) {
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

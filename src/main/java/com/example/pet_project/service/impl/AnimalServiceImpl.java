@@ -1,6 +1,5 @@
 package com.example.pet_project.service.impl;
 
-import com.example.pet_project.mapper.CoreMapper;
 import com.example.pet_project.model.dao.AnimalRepository;
 import com.example.pet_project.model.dto.AnimalDTO;
 import com.example.pet_project.model.entities.Animal;
@@ -8,8 +7,8 @@ import com.example.pet_project.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AnimalServiceImpl implements AnimalService {
@@ -29,9 +28,12 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public List<AnimalDTO> getAllAnimals() {
-        return repository.findAll().stream()
-                .map(CoreMapper.INSTANCE::toAnimalDto)
-                .collect(Collectors.toList());
+        List<AnimalDTO> animalDTOList = new ArrayList<>();
+        List<Animal> animalList = repository.findAll();
+        for (Animal animal : animalList) {
+            animalDTOList.add(new AnimalDTO(animal.getName()));
+        }
+        return animalDTOList;
     }
 
     @Override
