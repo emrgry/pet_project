@@ -17,4 +17,5 @@ public class PostDTO {
     private String description;
     private Boolean isActive;
     private String imageUrl;
+    private Long animalId;
 }

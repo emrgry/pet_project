@@ -1,8 +1,10 @@
 package com.example.pet_project.service.impl;
 
+import com.example.pet_project.model.dao.AnimalRepository;
 import com.example.pet_project.model.dao.PostRepository;
 import com.example.pet_project.model.dao.UserRepository;
 import com.example.pet_project.model.dto.PostDTO;
+import com.example.pet_project.model.entities.Animal;
 import com.example.pet_project.model.entities.Post;
 import com.example.pet_project.model.entities.User;
 import com.example.pet_project.service.PostService;
@@ -19,6 +21,9 @@ public class PostServiceImpl implements PostService {
     private PostRepository repository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AnimalRepository animalRepository;
+
     @Override
     public Post createPost(PostDTO postDTO) {
         postDTO.setCreatedDate(new Date());
@@ -62,6 +67,11 @@ public class PostServiceImpl implements PostService {
         post.setDescription(postDTO.getDescription());
         post.setIsActive(postDTO.getIsActive());
         post.setImageUrl(postDTO.getImageUrl());
+        if (postDTO.getAnimalId() != null) {
+            Long animalId = postDTO.getAnimalId();
+            Animal animal = animalRepository.getOne(animalId);
+            post.setAnimal(animal);
+        }
         return post;
     }
 }

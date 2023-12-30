@@ -21,6 +21,10 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "post_user_fk"))
     private User createdBy;
 
+    @ManyToOne
+    @JoinColumn(name = "animal_id", nullable = false, foreignKey = @ForeignKey(name = "post_animal_fk"))
+    private Animal animal;
+
     private Date createdDate;
 
     private Date updatedDate;
