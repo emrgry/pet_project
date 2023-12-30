@@ -9,5 +9,5 @@ import lombok.Setter;
 public class ProductDTO {
     private Long id;
     private String name;
-    private Animal animal;
+    private String animalName;
 }

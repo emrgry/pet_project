@@ -10,7 +10,7 @@ import java.util.Date;
 @Setter
 public class PostDTO {
     private Long id;
-    private Long userId;
+    private String userName;
     private Date createdDate;
     private Date updatedDate;
     private String title;

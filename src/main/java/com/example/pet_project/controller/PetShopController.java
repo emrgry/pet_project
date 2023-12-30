@@ -120,7 +120,7 @@ public class PetShopController {
     }
 
     @PostMapping("/createPost")
-    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+    public ResponseEntity<Post> createPost(@RequestBody PostDTO post) {
         Post createdPost = postService.createPost(post);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
@@ -142,7 +142,7 @@ public class PetShopController {
     }
 
     @PutMapping("/updatePost")
-    public ResponseEntity<Post> updatePost(@RequestBody Post post) {
+    public ResponseEntity<Post> updatePost(@RequestBody PostDTO post) {
         Post updatedPost = postService.updatePost(post);
         if (updatedPost != null) {
             return new ResponseEntity<>(updatedPost, HttpStatus.OK);
@@ -152,7 +152,7 @@ public class PetShopController {
     }
 
     @PostMapping("/createProduct")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(@RequestBody ProductDTO product) {
         Product createdProduct = productService.createProduct(product);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
@@ -174,7 +174,7 @@ public class PetShopController {
     }
 
     @PutMapping("/updateProduct")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@RequestBody ProductDTO product) {
         Product updatedProduct = productService.updateProduct(product);
         if (updatedProduct != null) {
             return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
@@ -183,9 +183,16 @@ public class PetShopController {
         }
     }
 
+
+    @PostMapping("/checkUserLogin")
+    public ResponseEntity<Integer> checkUserLogin(@RequestBody UserLoginDTO userLoginDTO) {
+        Integer userLogin = userService.checkUserLogin(userLoginDTO);
+        return new ResponseEntity<>(userLogin, HttpStatus.OK);
+    }
+
     @PostMapping("/createUser")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
+    public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO) {
+        User createdUser = userService.createUser(userDTO);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
@@ -206,7 +213,7 @@ public class PetShopController {
     }
 
     @PutMapping("/updateUser")
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
+    public ResponseEntity<User> updateUser(@RequestBody UserDTO user) {
         User updatedUser = userService.updateUser(user);
         if (updatedUser != null) {
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);

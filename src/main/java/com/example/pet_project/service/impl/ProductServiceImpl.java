@@ -1,6 +1,8 @@
 package com.example.pet_project.service.impl;
 
+import com.example.pet_project.model.dao.AnimalRepository;
 import com.example.pet_project.model.dao.ProductRepository;
+import com.example.pet_project.model.dto.ProductDTO;
 import com.example.pet_project.model.entities.Product;
 import com.example.pet_project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private AnimalRepository animalRepository;
     @Override
-    public Product createProduct(Product product) {
-        return repository.save(product);
+    public Product createProduct(ProductDTO product) {
+        return repository.save(productDTOToProduct(product));
     }
 
     @Override
@@ -30,12 +34,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Product product) {
-        return repository.save(product);
+    public Product updateProduct(ProductDTO product) {
+        return repository.save(productDTOToProduct(product));
     }
 
     @Override
     public void deleteProduct(Long id) {
         repository.deleteById(id);
+    }
+
+    public Product productDTOToProduct(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setId(productDTO.getId());
+        product.setName(productDTO.getName());
+         product.setAnimal(animalRepository.getByName(productDTO.getAnimalName()));
+        return product;
     }
 }

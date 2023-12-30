@@ -1,13 +1,14 @@
 package com.example.pet_project.model.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "user")
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "user", schema = "public")
 public class User {
 
     @Id
@@ -28,6 +29,5 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "city_code", nullable = false, foreignKey = @ForeignKey(name = "user_city_fk"))
     private City city;
-
 
 }
