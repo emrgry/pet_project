@@ -42,7 +42,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post updatePost(PostDTO post) {
-        return repository.save(postDTOToPost(post));
+        return post != null ? repository.save(postDTOToPost(post)) : null;
     }
 
     @Override

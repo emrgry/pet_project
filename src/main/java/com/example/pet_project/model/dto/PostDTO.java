@@ -1,6 +1,7 @@
 package com.example.pet_project.model.dto;
 
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.stream.LongStream;
 @Getter
 @Setter
 public class PostDTO {
+    @NotNull
     private Long id;
     private String userName;
     private Date createdDate;

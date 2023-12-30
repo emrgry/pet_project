@@ -3,6 +3,7 @@ package com.example.pet_project.controller;
 import com.example.pet_project.model.dto.*;
 import com.example.pet_project.model.entities.*;
 import com.example.pet_project.service.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class PetShopController {
 
 
     @PostMapping("/addAnimal")
-    public ResponseEntity<Void> addAnimal(@RequestBody Animal animal) {
+    public ResponseEntity<Void> addAnimal(@Valid @RequestBody Animal animal) {
         animalService.createAnimal(animal);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -46,7 +47,7 @@ public class PetShopController {
     }
 
     @PutMapping
-    public ResponseEntity<Animal> updateAnimal(@RequestBody Animal animal) {
+    public ResponseEntity<Animal> updateAnimal(@Valid @RequestBody Animal animal) {
         Animal updatedAnimal = animalService.updateAnimal(animal);
         if (updatedAnimal != null) {
             return new ResponseEntity<>(updatedAnimal, HttpStatus.OK);
@@ -78,7 +79,7 @@ public class PetShopController {
     }
 
     @PutMapping("/updateApplication")
-    public ResponseEntity<Application> updateApplication(@RequestBody Application application) {
+    public ResponseEntity<Application> updateApplication(@Valid @RequestBody Application application) {
         Application updatedApplication = applicationService.updateApplication(application);
         if (updatedApplication != null) {
             return new ResponseEntity<>(updatedApplication, HttpStatus.OK);
@@ -110,7 +111,7 @@ public class PetShopController {
     }
 
     @PutMapping("/updateCity")
-    public ResponseEntity<City> updateCity(@RequestBody City city) {
+    public ResponseEntity<City> updateCity(@Valid @RequestBody City city) {
         City updatedCity = cityService.updateCity(city);
         if (updatedCity != null) {
             return new ResponseEntity<>(updatedCity, HttpStatus.OK);
@@ -127,6 +128,17 @@ public class PetShopController {
             return new ResponseEntity<>(createdPost, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("hata");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/updatePost")
+    public ResponseEntity<PostDTO> updatePost(@Valid @RequestBody PostDTO postDTO) {
+        try {
+            Post post = postService.updatePost(postDTO);
+            PostDTO createdPost = postService.postToPostDto(post);
+            return new ResponseEntity<>(createdPost, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -148,7 +160,7 @@ public class PetShopController {
     }
 
     @GetMapping("/findPostsByAnimalName")
-    public ResponseEntity<List<Post>> updatePost(@PathVariable String animalName) {
+    public ResponseEntity<List<Post>> findPostsByAnimalName(@RequestParam String animalName) {
         return new ResponseEntity<>(postService.findByAnimalName(animalName), HttpStatus.OK);
     }
 
@@ -175,7 +187,7 @@ public class PetShopController {
     }
 
     @PutMapping("/updateProduct")
-    public ResponseEntity<Product> updateProduct(@RequestBody ProductDTO product) {
+    public ResponseEntity<Product> updateProduct(@Valid @RequestBody ProductDTO product) {
         Product updatedProduct = productService.updateProduct(product);
         if (updatedProduct != null) {
             return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
@@ -214,7 +226,7 @@ public class PetShopController {
     }
 
     @PutMapping("/updateUser")
-    public ResponseEntity<User> updateUser(@RequestBody UserDTO user) {
+    public ResponseEntity<User> updateUser(@Valid @RequestBody UserDTO user) {
         User updatedUser = userService.updateUser(user);
         if (updatedUser != null) {
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);

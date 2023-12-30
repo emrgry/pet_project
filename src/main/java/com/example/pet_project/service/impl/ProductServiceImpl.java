@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updateProduct(ProductDTO product) {
-        return repository.save(productDTOToProduct(product));
+        return product != null ? repository.save(productDTOToProduct(product)) : null;
     }
 
     @Override

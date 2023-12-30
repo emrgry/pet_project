@@ -40,7 +40,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public City updateCity(City city) {
-        return repository.save(city);
+        return city != null ? repository.save(city) : null;
     }
 
     @Override

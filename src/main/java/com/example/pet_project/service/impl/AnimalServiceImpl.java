@@ -31,14 +31,14 @@ public class AnimalServiceImpl implements AnimalService {
         List<AnimalDTO> animalDTOList = new ArrayList<>();
         List<Animal> animalList = repository.findAll();
         for (Animal animal : animalList) {
-            animalDTOList.add(new AnimalDTO(animal.getName()));
+            animalDTOList.add(new AnimalDTO(animal.getId(), animal.getName()));
         }
         return animalDTOList;
     }
 
     @Override
     public Animal updateAnimal(Animal animal) {
-        return repository.save(animal);
+        return animal != null ? repository.getByName(animal.getName()) : null;
     }
 
     @Override

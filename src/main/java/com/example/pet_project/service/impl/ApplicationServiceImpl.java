@@ -31,7 +31,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public Application updateApplication(Application application) {
-        return repository.save(application);
+        return application != null ? repository.save(application) : null;
     }
 
     @Override
