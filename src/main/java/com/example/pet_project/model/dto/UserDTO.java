@@ -1,5 +1,6 @@
 package com.example.pet_project.model.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class UserDTO {
     private Long id;
-
+    @NotNull
     private String userName;
 
     private String password;

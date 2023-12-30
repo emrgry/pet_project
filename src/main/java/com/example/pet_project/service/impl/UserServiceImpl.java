@@ -37,7 +37,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(UserDTO user) {
-        return repository.save(userDTOToUser(user));
+        try {
+            User existingUser = repository.getByUserName(user.getUserName());
+            user.setId(existingUser.getId());
+            User updatedUser = repository.save(userDTOToUser(user));
+            return updatedUser;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -101,5 +108,21 @@ public class UserServiceImpl implements UserService {
         }
 
         return user;
+    }
+
+    public UserDTO userToUserDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUserName(user.getUserName());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setAddress(user.getAddress());
+
+        if (user.getCity() != null) {
+            userDTO.setCityId(String.valueOf(user.getCity().getId()));
+        }
+
+        return userDTO;
     }
 }
