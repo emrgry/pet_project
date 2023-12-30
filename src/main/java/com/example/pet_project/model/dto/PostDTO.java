@@ -16,4 +16,5 @@ public class PostDTO {
     private String title;
     private String description;
     private Boolean isActive;
+    private String imageUrl;
 }

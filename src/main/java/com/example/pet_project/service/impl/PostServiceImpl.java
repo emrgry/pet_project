@@ -61,6 +61,7 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDTO.getTitle());
         post.setDescription(postDTO.getDescription());
         post.setIsActive(postDTO.getIsActive());
+        post.setImageUrl(postDTO.getImageUrl());
         return post;
     }
 }
