@@ -219,6 +219,16 @@ public class PetShopController {
         }
     }
 
+    @GetMapping("/getUserByUserName")
+    public ResponseEntity<User> getUserByUserName(@RequestParam String userName) {
+        User user = userService.getUserByUserName(userName);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();

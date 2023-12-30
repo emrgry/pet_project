@@ -14,4 +14,6 @@ public interface UserService {
     void deleteUser(Long id);
 
     Integer checkUserLogin(UserLoginDTO userLoginDTO);
+
+    User getUserByUserName(String userName);
 }

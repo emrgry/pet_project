@@ -70,6 +70,11 @@ public class UserServiceImpl implements UserService {
         return 3; // user not found
     }
 
+    @Override
+    public User getUserByUserName(String userName) {
+        return repository.getByUserName(userName);
+    }
+
     public UserDTO getUserDTOById(Long id) {
         User user = repository.findById(id).orElse(null);
         if (user != null) {
