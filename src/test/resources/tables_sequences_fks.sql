@@ -2,13 +2,14 @@
 DROP SEQUENCE IF EXISTS seq_animal_id;
 DROP SEQUENCE IF EXISTS seq_application_id;
 DROP SEQUENCE IF EXISTS seq_city_id;
-DROP SEQUENCE IF EXISTS seq_post_id;
+DROP SEQUENCE IF EXISTS seq_post_id;  -- Drop seq_post_id if it exists
 DROP SEQUENCE IF EXISTS seq_product_id;
 DROP SEQUENCE IF EXISTS seq_user_id;
 
 -- Drop foreign key constraints
 ALTER TABLE IF EXISTS application DROP CONSTRAINT IF EXISTS application_post_fk;
 ALTER TABLE IF EXISTS application DROP CONSTRAINT IF EXISTS application_user_fk;
+-- Remove the line that drops the "post_animal_fk" constraint if it doesn't exist.
 ALTER TABLE IF EXISTS post DROP CONSTRAINT IF EXISTS post_user_fk;
 ALTER TABLE IF EXISTS product DROP CONSTRAINT IF EXISTS product_animal_fk;
 ALTER TABLE IF EXISTS "user" DROP CONSTRAINT IF EXISTS user_city_fk;
@@ -21,12 +22,15 @@ DROP TABLE IF EXISTS post CASCADE;
 DROP TABLE IF EXISTS product CASCADE;
 DROP TABLE IF EXISTS "user" CASCADE;
 
+-- Recreate sequences
 create sequence seq_animal_id start with 1 increment by 1;
 create sequence seq_application_id start with 1 increment by 1;
 create sequence seq_city_id start with 1 increment by 1;
 create sequence seq_post_id start with 1 increment by 1;
 create sequence seq_product_id start with 1 increment by 1;
 create sequence seq_user_id start with 1 increment by 1;
+
+
 create table animal
 (
     id   bigint not null,
@@ -52,6 +56,7 @@ create table city
 create table post
 (
     is_active    boolean,
+    animal_id    bigint not null,
     created_date timestamp(6),
     id           bigint not null,
     updated_date timestamp(6),
@@ -83,3 +88,6 @@ alter table if exists application add constraint application_user_fk foreign key
 alter table if exists post add constraint post_user_fk foreign key (user_id) references "user";
 alter table if exists product add constraint product_animal_fk foreign key (animal_id) references animal;
 alter table if exists "user" add constraint user_city_fk foreign key (city_code) references city;
+alter table if exists post add constraint post_animal_fk foreign key (animal_id) references animal;
+
+alter table post add column image_url varchar(255);
