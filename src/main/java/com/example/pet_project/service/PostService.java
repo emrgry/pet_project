@@ -12,4 +12,8 @@ public interface PostService {
     List<Post> getAllPosts();
     Post updatePost(PostDTO post);
     void deletePost(Long id);
+    List<Post> findByAnimalName(String animalName);
+    Post postDTOToPost(PostDTO postDTO);
+    PostDTO postToPostDto(Post post);
+
 }

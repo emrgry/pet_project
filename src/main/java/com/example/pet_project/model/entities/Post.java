@@ -1,5 +1,6 @@
 package com.example.pet_project.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "post", schema = "public")
-public class Post {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Post { // hayvan tipine göre ilan araması var
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_generator")
@@ -21,8 +23,8 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "post_user_fk"))
     private User createdBy;
 
-    @ManyToOne
-    @JoinColumn(name = "animal_id", nullable = false, foreignKey = @ForeignKey(name = "post_animal_fk"))
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "animal_id", nullable = true, foreignKey = @ForeignKey(name = "post_animal_fk"))
     private Animal animal;
 
     private Date createdDate;

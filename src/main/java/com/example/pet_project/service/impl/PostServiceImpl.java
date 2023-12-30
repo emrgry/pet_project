@@ -50,6 +50,15 @@ public class PostServiceImpl implements PostService {
         repository.deleteById(id);
     }
 
+    @Override
+    public List<Post> findByAnimalName(String animalName) {
+        List<Post> posts = null;
+        if (animalName != null) {
+            posts = repository.findByAnimalName(animalName);
+        }
+        return posts;
+    }
+
     public Post postDTOToPost(PostDTO postDTO) {
         Post post = new Post();
         post.setId(postDTO.getId());
@@ -67,11 +76,30 @@ public class PostServiceImpl implements PostService {
         post.setDescription(postDTO.getDescription());
         post.setIsActive(postDTO.getIsActive());
         post.setImageUrl(postDTO.getImageUrl());
-        if (postDTO.getAnimalId() != null) {
-            Long animalId = postDTO.getAnimalId();
-            Animal animal = animalRepository.getOne(animalId);
+        if (postDTO.getAnimalName() != null) {
+            String animalName = postDTO.getAnimalName();
+            Animal animal = animalRepository.getByName(animalName);
             post.setAnimal(animal);
         }
         return post;
+    }
+
+    @Override
+    public PostDTO postToPostDto(Post post) {
+        PostDTO postDTO = new PostDTO();
+        postDTO.setId(post.getId());
+        postDTO.setUserName(post.getCreatedBy().getUserName());
+        postDTO.setCreatedDate(post.getCreatedDate());
+        postDTO.setUpdatedDate(post.getUpdatedDate());
+        postDTO.setTitle(post.getTitle());
+        postDTO.setDescription(post.getDescription());
+        postDTO.setIsActive(post.getIsActive());
+
+        // If you want to map the animal information as well, you can do it here
+        if (post.getAnimal() != null) {
+            postDTO.setAnimalName(post.getAnimal().getName());
+        }
+
+        return postDTO;
     }
 }

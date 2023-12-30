@@ -120,9 +120,15 @@ public class PetShopController {
     }
 
     @PostMapping("/createPost")
-    public ResponseEntity<Post> createPost(@RequestBody PostDTO post) {
-        Post createdPost = postService.createPost(post);
-        return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
+        try {
+            Post post = postService.createPost(postDTO);
+            PostDTO createdPost = postService.postToPostDto(post);
+            return new ResponseEntity<>(createdPost, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("hata");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/getPostById/{id}")
@@ -141,14 +147,9 @@ public class PetShopController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @PutMapping("/updatePost")
-    public ResponseEntity<Post> updatePost(@RequestBody PostDTO post) {
-        Post updatedPost = postService.updatePost(post);
-        if (updatedPost != null) {
-            return new ResponseEntity<>(updatedPost, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/findPostsByAnimalName")
+    public ResponseEntity<List<Post>> updatePost(@PathVariable String animalName) {
+        return new ResponseEntity<>(postService.findByAnimalName(animalName), HttpStatus.OK);
     }
 
     @PostMapping("/createProduct")
